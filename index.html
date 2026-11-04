@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Ôn Thi KTCT Mác - Lênin | Hệ Thống Ôn Thi Trắc Nghiệm Thông Minh</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Desktop Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-badge">KT</div>
+        <div class="logo-text">
+          <h1>KTCT Mác - Lênin</h1>
+          <p>Giáo trình Bộ GD&ĐT 2021</p>
+        </div>
+      </div>
+
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a class="nav-link active" data-target="dashboard-section">
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+            </span>
+            <span>Tổng quan</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-target="practice-chapter-section">
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+            </span>
+            <span>Luyện theo chương</span>
+            <span class="nav-badge" id="badge-chapter-count">6 chương</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-target="practice-random-section">
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>
+            </span>
+            <span>Luyện ngẫu nhiên</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-target="mock-exam-section">
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24"><path d="M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42C16.07 4.74 14.12 4 12 4c-4.97 0-9 4.03-9 9s4.02 9 9 9 9-4.03 9-9c0-2.12-.74-4.07-1.97-5.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
+            </span>
+            <span>Thi thử 60 phút</span>
+            <span class="nav-badge" style="background:var(--color-danger-surface); color:var(--color-danger); border-color:var(--color-danger-border);">40 câu</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-target="mistakes-section">
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+            </span>
+            <span>Ôn câu sai</span>
+            <span class="nav-badge" id="badge-mistake-count">0</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-target="flashcards-section">
+            <span class="nav-icon">
+              <svg viewBox="0 0 24 24"><path d="M19 2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2zm0-4H7V6h10v2z"/></svg>
+            </span>
+            <span>Tra cứu & Flashcard</span>
+            <span class="nav-badge" id="badge-az-count">556</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px; align-items:center;">
+          <span style="font-weight:600; color:var(--color-text-muted);">Tiến độ:</span>
+          <span id="storage-status" style="color:var(--color-success); font-weight:700;">Đã lưu tự động</span>
+        </div>
+        <div style="display:flex; gap:6px;">
+          <button class="btn btn-secondary btn-sm" id="btn-export-data" title="Xuất tiến độ học" style="flex:1;">Xuất file</button>
+          <label class="btn btn-secondary btn-sm" style="margin:0; cursor:pointer; flex:1;" title="Nhập tiến độ">
+            Nhập file
+            <input type="file" id="input-import-data" accept=".json" style="display:none;">
+          </label>
+          <button class="btn btn-secondary btn-sm" id="btn-reset-data" title="Xóa tiến độ làm lại">&#x21bb;</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      <!-- Top Sticky Bar -->
+      <header class="top-bar">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <button class="mobile-menu-btn" id="mobile-toggle-btn" aria-label="Mở danh mục menu">
+            <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+          </button>
+          <div class="page-title">
+            <h2 id="current-page-title">Tổng quan học tập</h2>
+          </div>
+        </div>
+        <div class="top-actions">
+          <span class="reference-pill" title="Căn cứ lý luận">
+            <svg viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>
+            Giáo trình Chuẩn 2021
+          </span>
+          <button class="btn btn-primary btn-sm" id="btn-quick-start-exam">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            Thi thử ngay
+          </button>
+        </div>
+      </header>
+
+      <!-- Content Body -->
+      <main class="content-body">
+        
+        <!-- 1. DASHBOARD SECTION -->
+        <section class="page-section active" id="dashboard-section">
+          <!-- Top Stats -->
+          <div class="stat-grid">
+            <div class="stat-card">
+              <div class="stat-icon" style="background:var(--color-primary-surface); color:var(--color-primary);">
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+              </div>
+              <div class="stat-info">
+                <p>Tổng ngân hàng</p>
+                <h3 id="stat-total-questions">800</h3>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:var(--color-success-surface); color:var(--color-success);">
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+              </div>
+              <div class="stat-info">
+                <p>Câu đã hoàn thành</p>
+                <h3 id="stat-answered-count">0</h3>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:var(--color-danger-surface); color:var(--color-danger);">
+                <svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+              </div>
+              <div class="stat-info">
+                <p>Câu làm sai</p>
+                <h3 id="stat-wrong-count">0</h3>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:var(--color-accent-surface); color:var(--color-accent);">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+              </div>
+              <div class="stat-info">
+                <p>Tỷ lệ chính xác</p>
+                <h3 id="stat-accuracy">0%</h3>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hero Action Banner -->
+          <div style="background:linear-gradient(135deg, var(--color-primary), #1e40af); color:#ffffff; border-radius:var(--radius-lg); padding:28px 24px; margin-bottom:28px; box-shadow:var(--shadow-md);">
+            <h3 style="font-size:1.4rem; font-weight:800; margin-bottom:8px;">Lộ trình Ôn thi Trắc nghiệm Chuẩn Bộ GD&ĐT 2021</h3>
+            <p style="opacity:0.9; margin-bottom:20px; max-width:680px; font-size:0.95rem;">
+              Ngân hàng gồm 244 câu hỏi trắc nghiệm thi đại học kèm bài tập tính toán từng bước và 556 thẻ kiến thức A-Z tra cứu nhanh.
+            </p>
+            <div style="display:flex; gap:12px; flex-wrap:wrap;">
+              <button class="btn btn-primary" id="banner-btn-practice" style="background:#ffffff; color:var(--color-primary); font-weight:700;">
+                <svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+                Luyện theo chương
+              </button>
+              <button class="btn btn-secondary" id="banner-btn-exam" style="background:rgba(255,255,255,0.15); color:#ffffff; border-color:rgba(255,255,255,0.3);">
+                <svg viewBox="0 0 24 24"><path d="M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42C16.07 4.74 14.12 4 12 4c-4.97 0-9 4.03-9 9s4.02 9 9 9 9-4.03 9-9c0-2.12-.74-4.07-1.97-5.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
+                Vào phòng thi thử 60 phút
+              </button>
+            </div>
+          </div>
+
+          <!-- Chapter Progress Grid -->
+          <div style="margin-bottom:14px; display:flex; justify-content:space-between; align-items:center;">
+            <h3 style="font-size:1.15rem; font-weight:700; color:var(--color-text);">Tiến độ 6 Chương Giáo trình</h3>
+          </div>
+          <div class="chapter-grid" id="dashboard-chapter-cards">
+            <!-- Chapter cards injected dynamically -->
+          </div>
+        </section>
+
+        <!-- 2. PRACTICE BY CHAPTER SECTION -->
+        <section class="page-section" id="practice-chapter-section">
+          <!-- Chapter Selector Tabs -->
+          <div style="display:flex; gap:8px; overflow-x:auto; padding-bottom:12px; margin-bottom:16px;" id="chapter-tab-buttons">
+            <!-- Programmatically rendered -->
+          </div>
+
+          <div class="quiz-container">
+            <!-- Quiz Card Header -->
+            <div class="quiz-header">
+              <div style="display:flex; align-items:center; gap:10px;">
+                <span class="tag tag-chapter" id="practice-chapter-badge">Chương 1</span>
+                <span style="font-weight:700; font-size:0.95rem;" id="practice-progress-indicator">Câu 1 / 40</span>
+              </div>
+              <div style="display:flex; gap:8px;">
+                <button class="btn btn-secondary btn-sm" id="btn-practice-prev">
+                  <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                  Trước
+                </button>
+                <button class="btn btn-primary btn-sm" id="btn-practice-next">
+                  Sau
+                  <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="question-card" id="practice-question-card">
+              <div class="question-meta-row">
+                <span class="tag tag-chapter" id="q-chapter-tag">Chương 1</span>
+                <span class="tag tag-source" id="q-id-tag">Mã câu</span>
+                <span class="tag tag-source" id="q-source-tag">Vị trí</span>
+              </div>
+              <div class="question-text" id="practice-q-text">Đang tải nội dung...</div>
+              
+              <!-- Options -->
+              <div class="options-list" id="practice-options-container">
+                <!-- Buttons injected by JS -->
+              </div>
+
+              <!-- Live Explanation Box -->
+              <div class="explanation-box" id="practice-explanation-box">
+                <div class="explanation-header" id="practice-explanation-title">Giải thích đáp án</div>
+                <div class="explanation-content" id="practice-explanation-text"></div>
+                <div id="practice-option-distractors" style="margin-bottom:12px; font-size:0.88rem; color:var(--color-text-muted);"></div>
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                  <span class="reference-pill" id="practice-reference-pill">Căn cứ: Giáo trình 2021</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Question Jump Matrix -->
+            <div class="nav-grid-box">
+              <div class="grid-title">
+                <span>Danh sách câu hỏi trong chương</span>
+                <span style="font-size:0.8rem; font-weight:normal; color:var(--color-text-muted);">Xanh: Đúng | Đỏ: Sai | Xanh nhạt: Đã làm</span>
+              </div>
+              <div class="question-nav-grid" id="practice-question-grid">
+                <!-- Jump buttons injected by JS -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. RANDOM PRACTICE SECTION -->
+        <section class="page-section" id="practice-random-section">
+          <div class="quiz-container">
+            <div class="quiz-header">
+              <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                <span style="font-weight:700;">Luyện ngẫu nhiên:</span>
+                <select id="select-random-count" style="padding:6px 12px; border-radius:var(--radius-sm); border:1px solid var(--color-border); font-weight:600;">
+                  <option value="10">10 câu hỏi</option>
+                  <option value="20" selected>20 câu hỏi</option>
+                  <option value="30">30 câu hỏi</option>
+                  <option value="40">40 câu hỏi</option>
+                </select>
+                <button class="btn btn-secondary btn-sm" id="btn-generate-random">Trộn bộ mới</button>
+              </div>
+              <div style="display:flex; gap:8px;">
+                <button class="btn btn-secondary btn-sm" id="btn-random-prev">Trước</button>
+                <button class="btn btn-primary btn-sm" id="btn-random-next">Sau</button>
+              </div>
+            </div>
+
+            <!-- Card -->
+            <div class="question-card" id="random-question-card">
+              <div class="question-meta-row">
+                <span class="tag tag-chapter" id="random-q-chapter-tag">Chương</span>
+                <span class="tag tag-source" id="random-q-id-tag">ID</span>
+                <span class="tag" id="random-indicator">Câu 1 / 20</span>
+              </div>
+              <div class="question-text" id="random-q-text">Đang tải...</div>
+              <div class="options-list" id="random-options-container"></div>
+              
+              <!-- Explanation Box -->
+              <div class="explanation-box" id="random-explanation-box">
+                <div class="explanation-header">Giải thích & Căn cứ</div>
+                <div class="explanation-content" id="random-explanation-text"></div>
+                <div id="random-option-distractors" style="margin-bottom:12px; font-size:0.88rem; color:var(--color-text-muted);"></div>
+                <span class="reference-pill" id="random-reference-pill">Căn cứ: Giáo trình 2021</span>
+              </div>
+            </div>
+
+            <!-- Jump Grid -->
+            <div class="nav-grid-box">
+              <div class="grid-title"><span>Bảng câu hỏi lượt này</span></div>
+              <div class="question-nav-grid" id="random-question-grid"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. MOCK EXAM SECTION -->
+        <section class="page-section" id="mock-exam-section">
+          <!-- Start / Overview Card -->
+          <div id="exam-start-card" class="result-card" style="max-width:760px; margin:0 auto;">
+            <div style="width:64px; height:64px; background:var(--color-primary-surface); color:var(--color-primary); border-radius:var(--radius-full); display:flex; align-items:center; justify-content:center; margin:0 auto 16px;">
+              <svg viewBox="0 0 24 24" style="width:36px; height:36px; fill:currentColor;"><path d="M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42C16.07 4.74 14.12 4 12 4c-4.97 0-9 4.03-9 9s4.02 9 9 9 9-4.03 9-9c0-2.12-.74-4.07-1.97-5.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
+            </div>
+            <h2 style="font-size:1.6rem; font-weight:800; margin-bottom:8px;">Phòng Thi Thử Trắc Nghiệm Cuối Kỳ</h2>
+            <p style="color:var(--color-text-muted); margin-bottom:24px;">Đề thi được tạo ngẫu nhiên theo đúng ma trận phân bổ chuẩn Bộ GD&ĐT</p>
+            
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin-bottom:28px; text-align:left;">
+              <div style="background:#f8fafc; padding:14px; border-radius:var(--radius-md); border:1px solid var(--color-border);">
+                <div style="font-size:0.8rem; color:var(--color-text-muted);">Số lượng câu hỏi</div>
+                <div style="font-size:1.25rem; font-weight:700;">40 câu trắc nghiệm</div>
+              </div>
+              <div style="background:#f8fafc; padding:14px; border-radius:var(--radius-md); border:1px solid var(--color-border);">
+                <div style="font-size:0.8rem; color:var(--color-text-muted);">Thời gian làm bài</div>
+                <div style="font-size:1.25rem; font-weight:700; color:var(--color-danger);">60 phút</div>
+              </div>
+              <div style="background:#f8fafc; padding:14px; border-radius:var(--radius-md); border:1px solid var(--color-border);">
+                <div style="font-size:0.8rem; color:var(--color-text-muted);">Thang điểm</div>
+                <div style="font-size:1.25rem; font-weight:700; color:var(--color-primary);">10.0 (0.25đ / câu)</div>
+              </div>
+              <div style="background:#f8fafc; padding:14px; border-radius:var(--radius-md); border:1px solid var(--color-border);">
+                <div style="font-size:0.8rem; color:var(--color-text-muted);">Cơ chế thi</div>
+                <div style="font-size:1.25rem; font-weight:700;">Ẩn giải thích khi thi</div>
+              </div>
+            </div>
+
+            <div style="background:var(--color-primary-surface); border:1px solid var(--color-primary-border); border-radius:var(--radius-md); padding:16px; margin-bottom:28px; text-align:left; font-size:0.9rem; color:var(--color-primary);">
+              <strong>Quy định làm bài:</strong>
+              <ul style="margin-left:20px; margin-top:6px; line-height:1.6;">
+                <li>Đồng hồ đếm ngược sẽ bắt đầu chạy ngay khi nhấn nút bên dưới.</li>
+                <li>Không hiển thị đáp án trong lúc thi để đảm bảo tính khách quan.</li>
+                <li>Sau khi nộp bài, hệ thống chấm điểm tự động và xuất bảng giải thích chi tiết từng câu.</li>
+              </ul>
+            </div>
+
+            <button class="btn btn-primary" style="padding:14px 36px; font-size:1.05rem;" id="btn-start-exam-now">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              Bắt đầu tính giờ làm bài
+            </button>
+          </div>
+
+          <!-- Active Exam Screen -->
+          <div id="exam-active-arena" class="quiz-container" style="display:none;">
+            <div class="quiz-header" style="position:sticky; top:var(--header-height); z-index:20; box-shadow:var(--shadow-md);">
+              <div style="display:flex; align-items:center; gap:16px;">
+                <span class="quiz-timer" id="exam-countdown-timer">
+                  <svg viewBox="0 0 24 24"><path d="M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42C16.07 4.74 14.12 4 12 4c-4.97 0-9 4.03-9 9s4.02 9 9 9 9-4.03 9-9c0-2.12-.74-4.07-1.97-5.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
+                  60:00
+                </span>
+                <span style="font-weight:600; font-size:0.9rem;" id="exam-progress-counter">Đã làm: 0/40</span>
+              </div>
+              <div style="display:flex; gap:8px;">
+                <button class="btn btn-secondary btn-sm" id="btn-exam-flag">Đánh dấu</button>
+                <button class="btn btn-secondary btn-sm" id="btn-exam-prev">Trước</button>
+                <button class="btn btn-secondary btn-sm" id="btn-exam-next">Sau</button>
+                <button class="btn btn-danger btn-sm" id="btn-submit-exam">Nộp bài</button>
+              </div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="question-card" id="exam-question-card">
+              <div class="question-meta-row">
+                <span class="tag tag-chapter" id="exam-q-chapter-tag">Chương 1</span>
+                <span class="tag tag-source" id="exam-q-num-tag">Câu 1 / 40</span>
+              </div>
+              <div class="question-text" id="exam-q-text">Nội dung câu hỏi...</div>
+              <div class="options-list" id="exam-options-container"></div>
+            </div>
+
+            <!-- Exam Navigation Grid -->
+            <div class="nav-grid-box">
+              <div class="grid-title">
+                <span>Bảng tiến trình bài thi</span>
+                <span style="font-size:0.8rem; color:var(--color-text-muted);">Vàng: Đã đánh dấu xem lại | Xanh: Đã chọn</span>
+              </div>
+              <div class="question-nav-grid" id="exam-nav-grid"></div>
+            </div>
+          </div>
+
+          <!-- Post-Exam Results View -->
+          <div id="exam-result-view" class="quiz-container" style="display:none;">
+            <div class="result-card">
+              <h2 style="font-size:1.5rem; font-weight:800; margin-bottom:4px;">Kết Quả Thi Thử Cuối Kỳ</h2>
+              <p style="color:var(--color-text-muted); margin-bottom:16px;">Thời gian hoàn thành: <span id="res-time-spent">-- phút</span></p>
+              
+              <div class="score-badge" id="res-final-score">8.5</div>
+              <div style="font-size:1.1rem; font-weight:700; margin-bottom:24px;" id="res-grade-text">Xuất sắc!</div>
+
+              <div style="display:flex; justify-content:center; gap:24px; margin-bottom:24px; flex-wrap:wrap;">
+                <div style="text-align:center;">
+                  <div style="font-size:1.4rem; font-weight:800; color:var(--color-success);" id="res-correct-count">34</div>
+                  <div style="font-size:0.82rem; color:var(--color-text-muted);">Số câu đúng</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="font-size:1.4rem; font-weight:800; color:var(--color-danger);" id="res-wrong-count">6</div>
+                  <div style="font-size:0.82rem; color:var(--color-text-muted);">Số câu sai</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="font-size:1.4rem; font-weight:800; color:var(--color-primary);" id="res-accuracy-pct">85%</div>
+                  <div style="font-size:0.82rem; color:var(--color-text-muted);">Độ chính xác</div>
+                </div>
+              </div>
+
+              <div style="display:flex; justify-content:center; gap:12px;">
+                <button class="btn btn-primary" id="btn-retake-exam">Làm lại đề mới</button>
+              </div>
+            </div>
+
+            <!-- Detailed Question Review -->
+            <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:14px;">Bảng Giải Thích Chi Tiết 40 Câu</h3>
+            <div id="exam-detailed-review-list" style="display:flex; flex-direction:column; gap:16px;"></div>
+          </div>
+        </section>
+
+        <!-- 5. MISTAKES REVIEW SECTION -->
+        <section class="page-section" id="mistakes-section">
+          <div class="quiz-container">
+            <div class="quiz-header">
+              <div>
+                <h3 style="font-size:1.1rem; font-weight:700;">Sổ Tay Câu Hỏi Làm Sai</h3>
+                <p style="font-size:0.82rem; color:var(--color-text-muted);" id="mistakes-summary-text">Hệ thống tự động lưu các câu làm sai để rèn luyện lại.</p>
+              </div>
+              <div style="display:flex; gap:8px;">
+                <button class="btn btn-primary btn-sm" id="btn-practice-all-mistakes">Ôn luyện lại tất cả</button>
+                <button class="btn btn-secondary btn-sm" id="btn-clear-mistakes">Xóa danh sách</button>
+              </div>
+            </div>
+
+            <!-- Focus Alert Box -->
+            <div id="highest-error-chapter-alert" style="display:none; background:var(--color-danger-surface); border:1px solid var(--color-danger-border); border-radius:var(--radius-md); padding:14px; margin-bottom:16px; font-size:0.92rem; color:#7f1d1d;">
+              <strong>Cảnh báo kiến thức:</strong> <span id="highest-error-chapter-text"></span>
+            </div>
+
+            <!-- Mistake Cards List -->
+            <div id="mistakes-cards-container" style="display:flex; flex-direction:column; gap:16px;"></div>
+          </div>
+        </section>
+
+        <!-- 6. FLASHCARDS & LOOKUP SECTION -->
+        <section class="page-section" id="flashcards-section">
+          <div class="quiz-container">
+            <!-- Search & Filter bar -->
+            <div style="background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-lg); padding:16px 20px; margin-bottom:20px; display:flex; gap:12px; flex-wrap:wrap;">
+              <div style="flex:1; min-width:240px; position:relative;">
+                <input type="text" id="flashcard-search-input" placeholder="Tìm kiếm khái niệm, quy luật, tác giả (C.Mác, Lênin, Montchretien)..." style="width:100%; padding:10px 14px; border:1px solid var(--color-border); border-radius:var(--radius-md); font-size:0.92rem;">
+              </div>
+              <select id="flashcard-chapter-filter" style="padding:10px 14px; border:1px solid var(--color-border); border-radius:var(--radius-md); font-size:0.88rem; font-weight:600;">
+                <option value="all">Tất cả các chương</option>
+                <option value="1">Chương 1: Đối tượng, PP</option>
+                <option value="2">Chương 2: Hàng hóa, KTTT</option>
+                <option value="3">Chương 3: Giá trị thặng dư</option>
+                <option value="4">Chương 4: Cạnh tranh, Độc quyền</option>
+                <option value="5">Chương 5: KTTT XHCN, Lợi ích</option>
+                <option value="6">Chương 6: CNH, Hội nhập</option>
+              </select>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+              <span style="font-weight:600; font-size:0.9rem;" id="flashcard-count-indicator">Hiển thị 556 thẻ kiến thức A-Z</span>
+            </div>
+
+            <div id="flashcards-list-container" style="display:flex; flex-direction:column; gap:12px;"></div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <!-- Bottom Navigation Bar (Persistent on iPad & Mobile Screens) -->
+    <nav class="bottom-nav" id="bottom-nav">
+      <button class="bottom-nav-item active" data-target="dashboard-section" aria-label="Tổng quan">
+        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+        <span>Tổng quan</span>
+      </button>
+      <button class="bottom-nav-item" data-target="practice-chapter-section" aria-label="Luyện chương">
+        <svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+        <span>Luyện chương</span>
+      </button>
+      <button class="bottom-nav-item" data-target="practice-random-section" aria-label="Ngẫu nhiên">
+        <svg viewBox="0 0 24 24"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>
+        <span>Ngẫu nhiên</span>
+      </button>
+      <button class="bottom-nav-item" data-target="mock-exam-section" aria-label="Thi thử">
+        <svg viewBox="0 0 24 24"><path d="M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42C16.07 4.74 14.12 4 12 4c-4.97 0-9 4.03-9 9s4.02 9 9 9 9-4.03 9-9c0-2.12-.74-4.07-1.97-5.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
+        <span>Thi thử</span>
+      </button>
+      <button class="bottom-nav-item" data-target="mistakes-section" aria-label="Câu sai">
+        <svg viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+        <span>Câu sai</span>
+      </button>
+      <button class="bottom-nav-item" data-target="flashcards-section" aria-label="Thẻ A-Z">
+        <svg viewBox="0 0 24 24"><path d="M19 2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2zm0-4H7V6h10v2z"/></svg>
+        <span>Thẻ A-Z</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Load Data and Main Script -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
